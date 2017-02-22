@@ -71,5 +71,12 @@ Piece TicTacToeBoard::getPiece(int row, int column)
 **/
 Piece TicTacToeBoard::getWinner()
 {
-  return Invalid;
+  for(int r=0; r<3; r++)
+  {
+    for(int c=0; c<3; c++){
+      if(board[r][c] == Blank)
+        return Invalid;
+    }
+  }
+  return Blank;
 }

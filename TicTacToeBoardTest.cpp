@@ -26,19 +26,45 @@ TEST(TicTacToeBoardTest, firstPieceIsX)
 
 }
 
-TEST(TicTacToeBoardTest, checkToggle)
+TEST(TicTacToeBoardTest, checktoggle)
 {
 	TicTacToeBoard board;
 	board.placePiece(1,1);
-	char turn = board.placePiece(2,1);
-	ASSERT_EQ(turn, 'O');
+	ASSERT_EQ(board.placePiece(2,1), 'O');
+}
+
+TEST(TicTacToeBoardTest, gameIsNotOver)
+{
+     	TicTacToeBoard board;
+	board.placePiece(1,1);
+	board.placePiece(2,1);
+	ASSERT_EQ(board.getWinner(), '?');
 
 }
+
+TEST(TicTacToeBoardTest, checkRowWinner)
+{
+     	TicTacToeBoard board;
+	board.placePiece(0,0);
+	board.placePiece(2,1);
+	board.placePiece(0,1);
+	board.placePiece(1,1);
+	board.placePiece(0,2);
+	ASSERT_EQ(board.getWinner(), 'X');
+
+}
+
 
 TEST(TicTacToeBoardTest, placeOutofBounds)
 {
 	TicTacToeBoard board;
 	ASSERT_EQ(board.placePiece(3,3), '?');
+}
+
+TEST(TicTacToeBoardTest, getOutofBounds)
+{
+	TicTacToeBoard board;
+	ASSERT_EQ(board.getPiece(3,3), '?');
 }
 
 TEST(TicTacToeBoardTest, initBoardStartsBlank)
