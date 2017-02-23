@@ -28,9 +28,9 @@ TicTacToeBoard::TicTacToeBoard()
 //Resets each board location to the Blank Piece value
 void TicTacToeBoard::clearBoard()
 {
-  for(int r=1; r<=3; r++)
+  for(int r=0; r<3; r++)
   {
-    for(int c=1; c<=3; c++){
+    for(int c=0; c<3; c++){
       board[r][c] = Blank;
     }
   }
@@ -46,11 +46,14 @@ void TicTacToeBoard::clearBoard()
 **/ 
 Piece TicTacToeBoard::placePiece(int row, int column)
 {
-  if(row>2 || row<0 || column>2 || column<0)
+  if(row>2 || row<0 || column>2 || column<0){
+    toggleTurn();
     return Invalid;
+  }
   if(board[row][column]==Blank){
     board[row][column]=turn;
   }
+  toggleTurn();
   return board[row][column];
 }
 
@@ -71,6 +74,27 @@ Piece TicTacToeBoard::getPiece(int row, int column)
 **/
 Piece TicTacToeBoard::getWinner()
 {
+
+  //Case 1: row of 3
+  //Case 2: column of 3
+  //Case 3: diagonal of 3
+  //Case 4: tie
+  //Case 5: keep playing
+
+  //Check Rows && Columns
+  for(int n=0; n<3; n++)
+  {
+    if(board[n][0]!=Blank && board[n][0]==board[n][1] && board[n][0]==board[n][2])
+	return board[n][0];
+    if(board[0][n]!=Blank && board[0][n]==board[1][n] && board[0][n]==board[2][n])
+	return board[0][n];
+  }
+
+  //Check Diagonals
+  if(board[1][1]!=Blank && ((board[0][0]==board[1][1] && board[0][0]==board[2][2]) || (board[0][2]==board[1][1] && board[0][2]==board[2][0])))
+    return board[1][1];
+
+  //Game Unfinished: check if board is not full 
   for(int r=0; r<3; r++)
   {
     for(int c=0; c<3; c++){
@@ -78,5 +102,7 @@ Piece TicTacToeBoard::getWinner()
         return Invalid;
     }
   }
+
+  //Tie: no one won and board is full
   return Blank;
 }
